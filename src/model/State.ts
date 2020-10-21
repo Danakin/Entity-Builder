@@ -1,10 +1,12 @@
-import Project from './Schema/Project'
-import SideBar from './SideBar'
 import InputDialogue from './Dialogue/InputDialogue'
 import ListDialogue from './Dialogue/ListDialogue'
-import { render, run } from './Text'
-import Layer from './Schema/Layer'
+import Convertor from './DataBase/Convertor'
+import { IData } from './DataBase/IData'
 import Entity from './Schema/Entity'
+import Layer from './Schema/Layer'
+import Project from './Schema/Project'
+import { render, run } from './Text'
+import SideBar from './SideBar'
 
 export default class State {
     preset: Project | null = null
@@ -18,13 +20,30 @@ export default class State {
     private sidebarLayer: SideBar | null = null
     private sidebarPreset: SideBar | null = null
 
-    create() {
-        this.project = new Project('Project')
-        this.project.load(this.preset!)
-        this.sidebarEntity = new SideBar(this.project.entityManager)
-        this.sidebarLayer = new SideBar(this.project.layerManager)
-        this.sidebarPreset = new SideBar(this.project.presetManager)
+    private prepare() {
+        this.sidebarEntity = new SideBar(this.project!.entityManager)
+        this.sidebarLayer = new SideBar(this.project!.layerManager)
+        this.sidebarPreset = new SideBar(this.project!.presetManager)
         this.showEntity()
+    }
+
+    convert(data: IData, skip: boolean) {
+        const convertor = new Convertor(this.project!, this.preset!, skip)
+        convertor.convert(data)
+    }
+
+    create(name: string) {
+        const preset = this.preset!
+        preset.name = name
+        this.project = new Project(name)
+        this.project.load(preset)
+        this.prepare()
+    }
+
+    load(data: Project) {
+        this.project = new Project(data.name)
+        this.project.load(data)
+        this.prepare()
     }
 
     showEntity() {
