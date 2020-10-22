@@ -7,6 +7,7 @@ import Layer from './Schema/Layer'
 import Project from './Schema/Project'
 import { render, run } from './Text'
 import SideBar from './SideBar'
+import Loader from './Loader/Loader'
 
 export default class State {
     preset: Project | null = null
@@ -41,8 +42,10 @@ export default class State {
     }
 
     load(data: Project) {
-        this.project = new Project(data.name)
-        this.project.load(data)
+        const project = new Project(data.name)
+        const loader = new Loader(project)
+        loader.load(data)
+        this.project = project
         this.prepare()
     }
 
