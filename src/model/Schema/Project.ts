@@ -19,7 +19,7 @@ export default class Project extends NameItem {
     readonly presetManager = new PresetManager()
 
     get fileName() {
-        return 'laravel-generator.json'
+        return this.name + '.json'
     }
 
     getEntity(name: string) {

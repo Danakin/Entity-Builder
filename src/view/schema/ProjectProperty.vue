@@ -31,7 +31,7 @@
             <tr>
                 <td class="text-right">description</td>
                 <td>
-                    <b-form-input v-model="item.description" placeholder="description"></b-form-input>
+                    <b-form-textarea v-model="item.description" rows="11"></b-form-textarea>
                 </td>
             </tr>
         </tbody>
