@@ -2,13 +2,10 @@
     <table class="table b-table b-table-caption-top">
         <caption>
             <h3 class="inline mr11">DataBase Schema</h3>
-            <b-button v-if="connected" @click="read" variant="outline-primary"> Read </b-button>
+            <b-button v-if="connected" @click="read" variant="outline-success"> Read </b-button>
             <ConnectButton v-else @connect="load"></ConnectButton>
         </caption>
         <tbody v-if="connected">
-            <tr>
-                <td>prefix {{ data.prefix }}</td>
-            </tr>
             <tr v-for="table in data.tables" :key="table.name">
                 <td>
                     <b-form-checkbox v-model="table.included"> {{ table.name }} </b-form-checkbox>
@@ -18,12 +15,24 @@
         <tfoot v-if="connected">
             <tr>
                 <td>
-                    <b-form-checkbox v-model="all" @change="change" class="inline mr11"> All </b-form-checkbox>
-                    <b-button @click="convert" variant="outline-primary" class="mr11"> Import selected table </b-button>
-                    <span>
-                        <b-form-radio v-model="skip" :value="true" class="inline mr11">Skip if exist</b-form-radio>
-                        <b-form-radio v-model="skip" :value="false" class="inline">Replace if exist</b-form-radio>
-                    </span>
+                    <b-form-checkbox v-model="all" @change="select" switch> All </b-form-checkbox>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    prefix <span class="red">{{ data.prefix }}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span class="mr11">if name exists</span>
+                    <b-form-radio v-model="skip" :value="true" class="inline mr11">Skip</b-form-radio>
+                    <b-form-radio v-model="skip" :value="false" class="inline">Replace</b-form-radio>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <b-button @click="convert" variant="outline-primary"> Import selected table </b-button>
                 </td>
             </tr>
         </tfoot>
@@ -61,7 +70,7 @@ export default {
                 .then(response => {
                     if (response.data.tables.length) {
                         this.data = response.data
-                        this.change(true)
+                        this.select(true)
                         return
                     }
 
@@ -100,7 +109,7 @@ export default {
                 })
             }
         },
-        change(value) {
+        select(value) {
             this.data.tables.forEach(table => {
                 table.included = value
             })
