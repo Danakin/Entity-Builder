@@ -1,7 +1,8 @@
 <template>
     <table class="table b-table b-table-caption-top">
         <caption>
-            <h3>Cast</h3>
+            <h3 class="inline mr11">Cast</h3>
+            <span>cast database type to PHP type (e.g. timestamp to Carbon)</span>
         </caption>
         <thead>
             <tr>
