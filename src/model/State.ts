@@ -79,8 +79,16 @@ export default class State {
             layer,
             entity,
         }
-        run(layer.script, data)
-        return render(layer.template, data)
+        try {
+            run(layer.script, data)
+        } catch (error) {
+            throw new Error('Failed to run script of ' + layer.name + ': ' + error.message)
+        }
+        try {
+            return render(layer.template, data)
+        } catch (error) {
+            throw new Error('Failed to render template of ' + layer.name + ': ' + error.message)
+        }
     }
 
     setValidation(entity: Entity) {
