@@ -1,14 +1,22 @@
 <template>
-    <div>
-        <div>
-            <h1 class="inline mr11">Project</h1>
-            <b-button-group>
-                <b-button @click="download" variant="outline-success"> Download </b-button>
-                <b-button v-if="connected" @click="save" variant="outline-success"> Save </b-button>
-            </b-button-group>
+    <div class="row">
+        <div class="col-9 offset-3">
+            <div style="height: 71px;">
+                <h1 class="inline mr11">Project</h1>
+                <b-button-group>
+                    <b-button @click="download" variant="outline-success"> Download </b-button>
+                    <b-button v-if="connected" @click="save" variant="outline-success"> Save </b-button>
+                </b-button-group>
+            </div>
+
+            <b-nav tabs>
+                <b-nav-item @click="tab = 'Property'" :active="tab === 'Property'"> Property </b-nav-item>
+                <b-nav-item @click="tab = 'Schema'" :active="tab === 'Schema'"> DataBase </b-nav-item>
+            </b-nav>
+
+            <ProjectProperty v-if="tab === 'Property'" :item="sss.project"></ProjectProperty>
+            <TableList v-if="tab === 'Schema'"></TableList>
         </div>
-        <ProjectProperty :item="sss.project"></ProjectProperty>
-        <TableList></TableList>
     </div>
 </template>
 
@@ -27,6 +35,7 @@ export default {
     data() {
         return {
             sss,
+            tab: 'Property',
         }
     },
     computed: {
