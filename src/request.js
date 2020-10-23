@@ -69,10 +69,6 @@ export function getErrorMessage(error) {
     return 'Error'
 }
 
-export function getPreset() {
-    return axios.get('preset.json')
-}
-
 export function load() {
     return request.get('/entity')
 }

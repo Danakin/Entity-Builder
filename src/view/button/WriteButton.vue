@@ -32,7 +32,7 @@ export default {
                 }
                 const text = sss.render(this.layer, entity)
                 if (isConnected()) {
-                    const file = this.layer.getFullPath(sss.project, entity)
+                    const file = this.layer.getFilePath(sss.project, entity)
                     this.deploy(file, text)
                 } else {
                     const file = this.layer.getFileName(entity)
